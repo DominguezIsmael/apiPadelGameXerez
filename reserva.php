@@ -7,12 +7,13 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include ("configuracion.inc.php");
 $c = new Mysqli($servidor,$usuario,$passwddb,$nombreBaseDatos);
+$data = json_decode(file_get_contents("php://input"));
 
-$nombre = $_GET['nombre'];
-$fecha = $_GET['fecha'];
-$hora = $_GET['hora'];
-$pista = $_GET['pista'];
-$cliente = $_GET['cliente'];
+$nombre=$data->nombre;
+$fecha=$data->fecha;
+$hora=$data->hora;
+$pista=$data->pista;
+$cliente=$data->cliente;
 
 // Obtengo los datos del cliente
 
@@ -47,8 +48,8 @@ switch ($diasemana){
 
 // SELECT CON FECHA HORA Y PISTA PARA VER SI YA EXISTE ESA RESERVA
 
-$resultadoexiste = $c->query("SELECT id FROM reserva WHERE fecha='$fecha' AND hora='$hora' AND pista_id='$pista';");
-if($resultadoexiste > 0) { //SI EXISTE DEVULVE ERROR
+$resultadoexiste = $c->query("SELECT id FROM reserva WHERE fecha='$fecha' AND hora='$hora' AND pista_id='$pista'");
+if($resultadoexiste->num_rows > 0) { //SI EXISTE DEVULVE ERROR
     echo json_encode(["success"=>0]);
 }
 else { //SI NO EXISTE INSERTAS
@@ -57,7 +58,6 @@ else { //SI NO EXISTE INSERTAS
                                         VALUES ('$nombre','$fecha','$hora','$cliente','$pista','$precio')");
     echo json_encode(["success"=>1]);
     }
-    exit();
 }
 
 

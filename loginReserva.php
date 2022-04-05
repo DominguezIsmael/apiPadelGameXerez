@@ -5,8 +5,9 @@ header("Access-Control-Allow-Methods: GET,POST");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-$email = $_GET['email'];
-$password = $_GET['password'];
+$data = json_decode(file_get_contents("php://input"));
+$email =$data->email;
+$password =$data->password;
 
 include('configuracion.inc.php');
 $conexionBD = new mysqli($servidor, $usuario, $passwddb, $nombreBaseDatos);
