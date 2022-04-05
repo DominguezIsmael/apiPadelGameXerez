@@ -67,6 +67,7 @@ CREATE TABLE `pista` (
 
 LOCK TABLES `pista` WRITE;
 /*!40000 ALTER TABLE `pista` DISABLE KEYS */;
+INSERT INTO `pista` VALUES (1,'La central',NULL),(2,'La pista rosa',NULL),(3,'La del rincón',NULL),(4,'La del medio',NULL),(5,'La de las clases',NULL);
 /*!40000 ALTER TABLE `pista` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -78,12 +79,12 @@ DROP TABLE IF EXISTS `precio`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `precio` (
-  `id` int(11) NOT NULL,
-  `dia` enum('semana','finde') DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `dia` enum('Entre semana','Fin de semana') DEFAULT NULL,
   `precio_normal` int(11) DEFAULT NULL,
   `precio_socio` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +93,7 @@ CREATE TABLE `precio` (
 
 LOCK TABLES `precio` WRITE;
 /*!40000 ALTER TABLE `precio` DISABLE KEYS */;
-INSERT INTO `precio` VALUES (1,'semana',14,10),(2,'finde',20,14);
+INSERT INTO `precio` VALUES (1,'Entre semana',14,10),(2,'Fin de semana',20,14);
 /*!40000 ALTER TABLE `precio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,11 +105,10 @@ DROP TABLE IF EXISTS `reserva`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `reserva` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
   `fecha` date DEFAULT NULL,
   `hora` time DEFAULT NULL,
-  `duracion` time DEFAULT NULL,
-  `tipo_pago` set('club','online') DEFAULT NULL,
   `cliente_id` int(11) NOT NULL,
   `pista_id` int(11) NOT NULL,
   `precios_id` int(11) NOT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE `reserva` (
   CONSTRAINT `fk_reserva_cliente` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_reserva_pista1` FOREIGN KEY (`pista_id`) REFERENCES `pista` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_reserva_precios1` FOREIGN KEY (`precios_id`) REFERENCES `precio` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,6 +128,7 @@ CREATE TABLE `reserva` (
 
 LOCK TABLES `reserva` WRITE;
 /*!40000 ALTER TABLE `reserva` DISABLE KEYS */;
+INSERT INTO `reserva` VALUES (1,'','2022-04-05','19:00:00',12,1,1);
 /*!40000 ALTER TABLE `reserva` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,4 +166,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-04 20:19:12
+-- Dump completed on 2022-04-05 17:13:41
